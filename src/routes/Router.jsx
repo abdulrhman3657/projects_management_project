@@ -4,8 +4,8 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import Login from "../pages/Login"
 import Signup from "../pages/Signup"
-import AdminLogin from "../pages/AdminLogin"
-import AdminPage from "../pages/AdminPage"
+import AdminLogin from "../pages/admin/AdminLogin"
+import AdminPage from "../pages/admin/AdminPage"
 
 const LayOut = () => {
   return(

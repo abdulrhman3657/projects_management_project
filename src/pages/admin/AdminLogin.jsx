@@ -34,7 +34,7 @@ function AdminLogin() {
     localStorage.setItem("username", "admin");
     localStorage.setItem("userType", "admin");
 
-    toast.success("loggen in successfully");
+    toast.success("logged in successfully");
 
     setTimeout(() => {
       redirect();
