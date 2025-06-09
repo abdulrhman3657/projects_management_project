@@ -73,10 +73,12 @@ function Login() {
 
       localStorage.setItem("username", check_user.username)
       localStorage.setItem("userType", check_user.type)
+      localStorage.setItem("id", check_user.id)
+
 
       setTimeout(() => {
         redirect();
-      }, 3000);
+      }, 2000);
 
       console.log(check_user)
 

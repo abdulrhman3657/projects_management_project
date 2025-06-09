@@ -6,6 +6,7 @@ import Login from "../pages/Login"
 import Signup from "../pages/Signup"
 import AdminLogin from "../pages/admin/AdminLogin"
 import AdminPage from "../pages/admin/AdminPage"
+import IdeaDetails from "../pages/admin/IdeaDetails"
 
 const LayOut = () => {
   return(
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         {path: "signup", element: <Signup/>},
         {path: "admin", element: <AdminLogin/>},
         {path: "adminpage", element: <AdminPage/>},
+        {path: "adminpage/ideadetails/:id", element: <IdeaDetails/>},
       ]
   }
 ])

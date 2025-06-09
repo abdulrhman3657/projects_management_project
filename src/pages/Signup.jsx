@@ -94,6 +94,9 @@ function Signup() {
           email: email,
           password: password,
           type: userType,
+          idea: { title: "", text: "" },
+          students: [],
+          ideaStatus: { status: "", text: "" },
         })
         .then((res) => {
           toast.success("signed up successfull");
@@ -101,7 +104,7 @@ function Signup() {
 
           setTimeout(() => {
             redirect();
-          }, 3000);
+          }, 2000);
 
           console.log(res.data);
         })

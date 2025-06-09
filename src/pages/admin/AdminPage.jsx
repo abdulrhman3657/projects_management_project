@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router";
 
 function AdminPage() {
   const API = "https://682199fa259dad2655afc100.mockapi.io/usersapi";
@@ -9,6 +11,7 @@ function AdminPage() {
   const [users, setUsers] = useState([]);
   const [usersCopy, setUsersCopy] = useState([]);
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     axios.get(API).then((res) => {
@@ -47,7 +50,6 @@ function AdminPage() {
     });
 
     if (filteredUsers.length == 0) {
-
       filteredUsers = usersCopy.filter((user) => {
         return user.username.toLowerCase().includes(search.toLowerCase());
       });
@@ -62,6 +64,9 @@ function AdminPage() {
 
   return localStorage.getItem("username") == "admin" ? (
     <div className="p-3 bg-gray-300 flex flex-col gap-3">
+      <div>
+        <ToastContainer position="top-center" reverseOrder={false} />
+      </div>
       <div>
         <label
           htmlFor="default-search"
@@ -129,13 +134,16 @@ function AdminPage() {
                   {user.username}
                 </th>
                 <td className="px-6 py-4">{user.type}</td>
-                <td className="px-6 py-4">No idea yet</td>
+                <td className="px-6 py-4">
+                  <div className="flex gap-2">
+                    <h1>
+                      {user.idea.title}
+                    </h1>
+                    <Link to={`/adminpage/ideadetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">More...</Link>
+                  </div>
+                </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-3 text-2xl">
-                    {/* <TbEdit
-                      onClick={modifyUser}
-                      className="hover:text-green-500 hover:cursor-pointer"
-                    /> */}
                     <FaDeleteLeft
                       onClick={() => deleteUser(user.id)}
                       className="hover:text-red-500 hover:cursor-pointer"
@@ -149,7 +157,11 @@ function AdminPage() {
       </div>
     </div>
   ) : (
-    <div>you are no aothorised for this page</div>
+    <div className="flex justify-center items-center h-screen bg-blue-50">
+      <h1 className="text-2xl lg:text-3xl font-bold">
+        you are not authorised for this page
+      </h1>
+    </div>
   );
 }
 
