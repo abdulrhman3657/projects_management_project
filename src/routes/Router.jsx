@@ -7,6 +7,7 @@ import Signup from "../pages/Signup"
 import AdminLogin from "../pages/admin/AdminLogin"
 import AdminPage from "../pages/admin/AdminPage"
 import IdeaDetails from "../pages/admin/IdeaDetails"
+import GroupDetails from "../pages/admin/GroupDetails"
 
 const LayOut = () => {
   return(
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
         {path: "admin", element: <AdminLogin/>},
         {path: "adminpage", element: <AdminPage/>},
         {path: "adminpage/ideadetails/:id", element: <IdeaDetails/>},
+        {path: "adminpage/groupdetails/:id", element: <GroupDetails/>},
       ]
   }
 ])

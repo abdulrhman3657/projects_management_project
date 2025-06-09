@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { FaDeleteLeft } from "react-icons/fa6";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 
 function AdminPage() {
@@ -12,12 +12,26 @@ function AdminPage() {
   const [usersCopy, setUsersCopy] = useState([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
     axios.get(API).then((res) => {
-      setUsers(res.data);
+
+      const newlist1 = res.data.filter((user) => {
+        return user.type == "Student"
+      })
+
+      setUsers(newlist1);
+
       setUsersCopy(res.data);
-      console.log(res.data);
+
+      const newlist = res.data.filter((user) => {
+        return user.type == "Instructor"
+      })
+      
+      setInstructors(newlist)
+
+      // console.log(res.data);
     });
   }, []);
 
@@ -25,10 +39,10 @@ function AdminPage() {
 
   // };
   const deleteUser = (id) => {
-    console.log(id);
+    // console.log(id);
 
     axios.delete(`${API}/${id}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
 
       const newUsers = users.filter((user) => {
         return user.id != id;
@@ -136,10 +150,7 @@ function AdminPage() {
                 <td className="px-6 py-4">{user.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
-                    <h1>
-                      {user.idea.title}
-                    </h1>
-                    <Link to={`/adminpage/ideadetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">More...</Link>
+                    <Link to={`/adminpage/ideadetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">Details...</Link>
                   </div>
                 </td>
                 <td className="px-6 py-4">
@@ -155,6 +166,52 @@ function AdminPage() {
           </tbody>
         </table>
       </div>
+
+                  <div className="relative overflow-x-auto">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                User
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Role
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Students
+              </th>
+              <th scope="col" className="px-6 py-3">
+                More
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {instructors.map((user) => (
+              <tr key={user.id} className="bg-white border-b border-gray-200">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                >
+                  {user.username}
+                </th>
+                <td className="px-6 py-4">{user.type}</td>
+                <td className="px-6 py-4">
+                  <Link to={`/adminpage/groupdetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">Details...</Link>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex gap-3 text-2xl">
+                    <FaDeleteLeft
+                      onClick={() => deleteUser(user.id)}
+                      className="hover:text-red-500 hover:cursor-pointer"
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
     </div>
   ) : (
     <div className="flex justify-center items-center h-screen bg-blue-50">
