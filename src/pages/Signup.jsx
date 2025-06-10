@@ -97,6 +97,7 @@ function Signup() {
           idea: { title: "", text: "" },
           students: [],
           ideaStatus: { status: "", text: "" },
+          instructor: ""
         })
         .then((res) => {
           toast.success("signed up successfull");

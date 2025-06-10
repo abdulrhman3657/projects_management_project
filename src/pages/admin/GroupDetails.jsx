@@ -32,7 +32,27 @@ function GroupDetails() {
   }, []);
 
   const addStudent = () => {
+
     console.log(selectedStudent);
+
+    const studentData = allstudents.find(student => {
+      return student.id == selectedStudent
+    })
+
+    console.log(studentData)
+    console.log(studentData.username);
+    
+    axios
+      .put(`${API}/${selectedStudent}`, {
+        username: studentData.username,
+        email: studentData.email,
+        password: studentData.password,
+        type: studentData.userType,
+        idea: { title: studentData.idea.title, text: studentData.idea.text },
+        students: [students],
+        ideaStatus: { status: studentData.ideaStatus.status, text: studentData.ideaStatus.text },
+        instructor: data.username
+      })
 
     axios
       .put(`${API}/${id}`, {
@@ -41,7 +61,7 @@ function GroupDetails() {
         password: data.password,
         type: data.userType,
         idea: { title: "", text: "" },
-        students: [...students, selectedStudent],
+        students: [...students, studentData.username],
         ideaStatus: { status: "", text: "" },
       })
       .then((res) => {
@@ -75,7 +95,7 @@ function GroupDetails() {
             >
               <option value="">Select a student</option>
               {allstudents.map((student) => (
-                <option value={student.username}>{student.username}</option>
+                <option key={student.id} value={student.id}>{student.username}</option>
               ))}
             </select>
             <button

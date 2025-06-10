@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { ToastContainer } from "react-toastify";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function AdminPage() {
   const API = "https://682199fa259dad2655afc100.mockapi.io/usersapi";
@@ -16,28 +16,24 @@ function AdminPage() {
 
   useEffect(() => {
     axios.get(API).then((res) => {
-
       const newlist1 = res.data.filter((user) => {
-        return user.type == "Student"
-      })
+        return user.type == "Student";
+      });
 
       setUsers(newlist1);
 
       setUsersCopy(res.data);
 
       const newlist = res.data.filter((user) => {
-        return user.type == "Instructor"
-      })
-      
-      setInstructors(newlist)
+        return user.type == "Instructor";
+      });
 
-      // console.log(res.data);
+      setInstructors(newlist);
+
+      console.log(res.data);
     });
   }, []);
 
-  // const modifyUser = () => {
-
-  // };
   const deleteUser = (id) => {
     // console.log(id);
 
@@ -75,6 +71,16 @@ function AdminPage() {
 
     setUsers(filteredUsers);
   };
+
+  const navigate = useNavigate()
+
+  const addStudent = () => {
+    navigate("/signup")
+  }
+
+  const addInstructor = () => {
+    navigate("/signup")
+  }
 
   return localStorage.getItem("username") == "admin" ? (
     <div className="p-3 bg-gray-300 flex flex-col gap-3">
@@ -121,6 +127,12 @@ function AdminPage() {
       </div>
 
       <div className="relative overflow-x-auto">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold py-3">Students</h1>
+          <button onClick={addStudent} className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 w-25 rounded-lg transition-colors">
+            Add student
+          </button>
+        </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -150,7 +162,12 @@ function AdminPage() {
                 <td className="px-6 py-4">{user.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
-                    <Link to={`/adminpage/ideadetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">Details...</Link>
+                    <Link
+                      to={`/adminpage/ideadetails/${user.id}`}
+                      className="hover:text-indigo-700 hover:cursor-pointer font-bold"
+                    >
+                      Details...
+                    </Link>
                   </div>
                 </td>
                 <td className="px-6 py-4">
@@ -167,7 +184,13 @@ function AdminPage() {
         </table>
       </div>
 
-                  <div className="relative overflow-x-auto">
+      <div className="relative overflow-x-auto">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold py-3">Instructors</h1>
+          <button onClick={addInstructor} className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 w-28 rounded-lg transition-colors">
+            Add Instructor
+          </button>
+        </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -196,7 +219,12 @@ function AdminPage() {
                 </th>
                 <td className="px-6 py-4">{user.type}</td>
                 <td className="px-6 py-4">
-                  <Link to={`/adminpage/groupdetails/${user.id}`} className="hover:text-indigo-700 hover:cursor-pointer font-bold">Details...</Link>
+                  <Link
+                    to={`/adminpage/groupdetails/${user.id}`}
+                    className="hover:text-indigo-700 hover:cursor-pointer font-bold"
+                  >
+                    Details...
+                  </Link>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-3 text-2xl">
@@ -211,7 +239,6 @@ function AdminPage() {
           </tbody>
         </table>
       </div>
-
     </div>
   ) : (
     <div className="flex justify-center items-center h-screen bg-blue-50">

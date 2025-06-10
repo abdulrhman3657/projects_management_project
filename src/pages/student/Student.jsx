@@ -9,6 +9,7 @@ function Student() {
   const [text, setText] = useState("");
   const [counter, setCounter] = useState(0);
   const [status, setStatus] = useState("");
+  const [approvedIdeas, setApprovedIdeas] = useState([])
 
   const id = localStorage.getItem("id");
 
@@ -16,10 +17,23 @@ function Student() {
     axios.get(`${API}/${id}`).then((res) => {
       console.log(res.data);
       setData(res.data);
-      console.log(res.data.ideaStatus.status);
+      // console.log(res.data.ideaStatus.status);
       setStatus(res.data.ideaStatus.status);
     });
   }, [counter]);
+
+  useEffect(() => {
+    axios.get(API).then((res) => {
+
+      const filterdList = res.data.filter(user => {
+        return user.ideaStatus.status == "approved"
+      })
+
+      setApprovedIdeas(filterdList)
+
+      // console.log(filterdList);
+    });
+  }, []);
 
   const post_idea = () => {
     axios
@@ -31,20 +45,34 @@ function Student() {
         idea: { title: title, text: text },
         students: [],
         ideaStatus: { status: "pending", text: "" },
+        instructor: data.instructor
       })
       .then((res) => {
         // res.data.idea.ideaStatus.status
         setTitle(res.data.idea.title);
         setText(res.data.idea.text);
         setCounter(counter + 1);
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 
   return (
-    <div className="bg-blue-50 p-3">
-      <div>
+    <div className="bg-blue-100 p-3">
         <div className="flex flex-col lg:items-center gap-3 justify-center">
+
+          <div className="bg-white rounded-xl w-full lg:w-5/10 flex flex-col items-center gap-3 justify-center p-3">
+            <h1 className=" text-2xl font-bold">Approved Ideas</h1>
+            <div>
+              {
+                approvedIdeas.map(user => (
+                  <div key={user.id}>
+                    {user.idea.title}
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
           <div>
             {data?.idea?.title ? (
               <div>
@@ -60,6 +88,25 @@ function Student() {
                   <span className="font-bold">Status: </span>
                   {status}
                 </h1>
+                <h1>
+                  <span className="font-bold">Your instructor: </span>
+                  {data?.instructor}
+                </h1>
+
+                <div className="flex gap-3">
+                  <span className="font-bold">Your team members: </span>
+                  <div className="flex gap-3">
+                    {
+                      data.students[0].map((student, index) => (
+                        <div key={index} className="flex gap-3" >
+                          <h1 className="">{student}</h1>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
+
+
                 {data?.ideaStatus?.status == "rejected" ? (
                   <h1>
                     <span className="font-bold">rejection reason: </span>
@@ -112,7 +159,6 @@ function Student() {
             </button>
           </div>
         </div>
-      </div>
     </div>
   );
 }
