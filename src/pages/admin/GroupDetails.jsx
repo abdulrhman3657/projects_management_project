@@ -19,7 +19,6 @@ function GroupDetails() {
         return user.type == "Student";
       });
       setAllStudents(filterStudents);
-      // console.log(filterStudents);
     });
   }, []);
 
@@ -27,37 +26,42 @@ function GroupDetails() {
     axios.get(`${API}/${id}`).then((res) => {
       setData(res.data);
       setStudents(res.data.students);
-      // console.log(res.data.students);
     });
   }, []);
 
   const addStudent = () => {
+    if (selectedStudent == "") {
+      return;
+    }
 
-    // console.log(selectedStudent);
+    const studentData = allstudents.find((student) => {
+      return student.id == selectedStudent;
+    });
 
-    const studentData = allstudents.find(student => {
-      return student.id == selectedStudent
-    })
+    // the students group
+    const selectedStudents = [...students, studentData];
 
-    // console.log(studentData)
-    // console.log(studentData.username);
-    console.log(students);
-    
-    console.log(selectedStudent)
-    
-    axios
-      .put(`${API}/${selectedStudent}`, {
-        username: studentData.username,
-        email: studentData.email,
-        password: studentData.password,
-        type: studentData.userType,
-        idea: { title: studentData.idea.title, text: studentData.idea.text },
-        students: [students],
-        ideaStatus: { status: studentData.ideaStatus.status, text: studentData.ideaStatus.text },
-        instructor: data
-      }).then(res => {
-        console.log(res.data)
-      })
+    selectedStudents.forEach((student) => {
+      
+      axios
+        .put(`${API}/${student.id}`, {
+          username: student.username,
+          email: student.email,
+          password: student.password,
+          type: student.userType,
+          idea: { title: student.idea.title, text: student.idea.text },
+          students: [...students, studentData],
+          ideaStatus: {
+            status: student.ideaStatus.status,
+            text: student.ideaStatus.text,
+          },
+          instructor: data,
+        })
+        .then((res) => {
+          console.log("here")
+          console.log(res.data);
+        });
+    });
 
     axios
       .put(`${API}/${id}`, {
@@ -70,8 +74,8 @@ function GroupDetails() {
         ideaStatus: { status: "", text: "" },
       })
       .then((res) => {
-        toast.success("successfully added student");
-        // console.log(res.data);
+        toast.success("successfully added student");    
+        console.log("instructor list:", res.data)  
       });
   };
 
@@ -87,7 +91,7 @@ function GroupDetails() {
           <div>
             <h1 className="text-x font-bold">Students:</h1>
             {students.map((student) => (
-              <div>{student.username}</div>
+              <div key={student.id}>{student.username}</div>
             ))}
           </div>
         )}
@@ -100,7 +104,9 @@ function GroupDetails() {
             >
               <option value="">Select a student</option>
               {allstudents.map((student) => (
-                <option key={student.id} value={student.id}>{student.username}</option>
+                <option key={student.id} value={student.id}>
+                  {student.username}
+                </option>
               ))}
             </select>
             <button
