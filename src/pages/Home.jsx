@@ -6,6 +6,7 @@ function Home() {
   const username = localStorage.getItem("username");
   const userType = localStorage.getItem("userType");
 
+  // admin reroute
   return username ? (
     <div>
       {(userType == "Student") ? <Student/> : <Instructor/>}
