@@ -78,7 +78,7 @@ function Login() {
 
       setTimeout(() => {
         redirect();
-      }, 2000);
+      }, 1000);
 
       console.log(check_user)
 

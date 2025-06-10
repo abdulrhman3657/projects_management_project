@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 function Navbar() {
   const [toggleMenue, setToggleMenue] = useState(false);
@@ -8,10 +8,11 @@ function Navbar() {
 
   const {pathname} = useLocation()
   
+  const navigate = useNavigate()
 
   const logout = () => {
     localStorage.removeItem("username");
-    window.location.reload();
+    navigate("/login")
   };
 
   useEffect(() => {

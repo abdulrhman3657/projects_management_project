@@ -27,20 +27,23 @@ function GroupDetails() {
     axios.get(`${API}/${id}`).then((res) => {
       setData(res.data);
       setStudents(res.data.students);
-      console.log(res.data);
+      // console.log(res.data.students);
     });
   }, []);
 
   const addStudent = () => {
 
-    console.log(selectedStudent);
+    // console.log(selectedStudent);
 
     const studentData = allstudents.find(student => {
       return student.id == selectedStudent
     })
 
-    console.log(studentData)
-    console.log(studentData.username);
+    // console.log(studentData)
+    // console.log(studentData.username);
+    console.log(students);
+    
+    console.log(selectedStudent)
     
     axios
       .put(`${API}/${selectedStudent}`, {
@@ -51,7 +54,9 @@ function GroupDetails() {
         idea: { title: studentData.idea.title, text: studentData.idea.text },
         students: [students],
         ideaStatus: { status: studentData.ideaStatus.status, text: studentData.ideaStatus.text },
-        instructor: data.username
+        instructor: data
+      }).then(res => {
+        console.log(res.data)
       })
 
     axios
@@ -61,7 +66,7 @@ function GroupDetails() {
         password: data.password,
         type: data.userType,
         idea: { title: "", text: "" },
-        students: [...students, studentData.username],
+        students: [...students, studentData],
         ideaStatus: { status: "", text: "" },
       })
       .then((res) => {
@@ -82,7 +87,7 @@ function GroupDetails() {
           <div>
             <h1 className="text-x font-bold">Students:</h1>
             {students.map((student) => (
-              <div>{student}</div>
+              <div>{student.username}</div>
             ))}
           </div>
         )}

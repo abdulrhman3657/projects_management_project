@@ -105,7 +105,7 @@ function Signup() {
 
           setTimeout(() => {
             redirect();
-          }, 2000);
+          }, 1000);
 
           console.log(res.data);
         })

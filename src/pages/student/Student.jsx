@@ -45,7 +45,7 @@ function Student() {
         idea: { title: title, text: text },
         students: [],
         ideaStatus: { status: "pending", text: "" },
-        instructor: data.instructor
+        instructor: data.instructor.username
       })
       .then((res) => {
         // res.data.idea.ideaStatus.status
@@ -90,16 +90,16 @@ function Student() {
                 </h1>
                 <h1>
                   <span className="font-bold">Your instructor: </span>
-                  {data?.instructor}
+                  {data?.instructor?.username}
                 </h1>
 
                 <div className="flex gap-3">
                   <span className="font-bold">Your team members: </span>
                   <div className="flex gap-3">
                     {
-                      data.students[0].map((student, index) => (
+                      data.students[0]?.map((student, index) => (
                         <div key={index} className="flex gap-3" >
-                          <h1 className="">{student}</h1>
+                          <h1 className="">{student?.username}</h1>
                         </div>
                       ))
                     }

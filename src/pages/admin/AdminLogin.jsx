@@ -38,7 +38,7 @@ function AdminLogin() {
 
     setTimeout(() => {
       redirect();
-    }, 3000);
+    }, 1000);
   };
 
   return (
