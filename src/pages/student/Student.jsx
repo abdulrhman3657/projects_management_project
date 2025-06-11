@@ -22,6 +22,8 @@ function Student() {
 
       setStudentsGroup(filterdList);
 
+      console.log(res.data);
+
       setData(res.data);
       setStatus(res.data.ideaStatus.status);
     });
@@ -47,47 +49,55 @@ function Student() {
         idea: { title: title, text: text },
         students: data.students,
         ideaStatus: { status: "pending", text: "" },
-        instructor: data.instructor.username,
+        instructor: data.instructor,
       })
       .then((res) => {
         setTitle(res.data.idea.title);
         setText(res.data.idea.text);
         setCounter(counter + 1);
+        console.log(res.data);
       });
   };
 
   return (
-    <div className="bg-blue-100 p-3">
-      <div className="flex flex-col lg:items-center gap-3 justify-center">
+    <div className="bg-gray-200 lg:h-screen  p-3">
+      <div className="flex flex-col h-full  lg:items-center gap-3 justify-around">
         <div className="flex flex-col lg:flex-row-reverse w-full justify-center lg:justify-around items-center gap-3">
-          <div className="bg-white rounded-xl w-full lg:w-3/10 flex flex-col items-center gap-3 justify-center p-3">
-            <h1 className=" text-2xl font-bold text-green-500">Approved Ideas</h1>
-            <ol className="list-decimal">
+          <div className="bg-white rounded-xl h-full w-full lg:w-3/10 flex flex-col items-center gap-3 justify-center p-3">
+            <h1 className=" text-2xl font-bold text-green-500">
+              Approved Ideas
+            </h1>
+            <ol className="list-decimal p-3">
               {approvedIdeas.map((user) => (
                 <li key={user.id}>{user.idea.title}</li>
               ))}
             </ol>
           </div>
-          <div>
+          <div className="h-full w-full lg::w-5/10">
             {data?.idea?.title ? (
-              <div className="lg:flex flex-col gap-4 bg-white p-3 rounded-xl">
+              <div className="lg:flex flex-col justify-around gap-4 bg-white h-full p-3 rounded-xl">
                 <h1>
-                  <span className="font-bold">Idea: </span>
+                  <span className="font-bold">Your Idea: </span>
                   {data?.idea?.title}
                 </h1>
                 <h1>
-                  <span className="font-bold">Text: </span>
+                  <span className="font-bold">Description: </span>
                   {data?.idea?.text}
                 </h1>
                 <h1>
-                  <span className="font-bold">Status: </span> 
-                  <span className={(status == "approved") ? "text-green-500": (status == "rejected") ? "text-red-500" : "text-gray-500"}>{status}</span>
+                  <span className="font-bold">Status: </span>
+                  <span
+                    className={
+                      status == "approved"
+                        ? "text-green-500"
+                        : status == "rejected"
+                        ? "text-red-500"
+                        : "text-gray-500"
+                    }
+                  >
+                    {status}
+                  </span>
                 </h1>
-                <h1>
-                  <span className="font-bold">Your instructor: </span>
-                  {data?.instructor?.username}
-                </h1>
-
                 {data?.ideaStatus?.status == "rejected" ? (
                   <h1>
                     <span className="font-bold">rejection reason: </span>
@@ -104,7 +114,7 @@ function Student() {
             )}
           </div>
 
-          <div className="flex flex-col w-8/10 lg:w-1/4 p-3 border-2 rounded-2xl bg-gray-200">
+          <div className="flex flex-col w-full lg:w-1/4 p-3  rounded-2xl bg-white">
             <div className="mb-6">
               <label
                 htmlFor="default-input"
@@ -139,6 +149,17 @@ function Student() {
             >
               Submit
             </button>
+          </div>
+        </div>
+
+        <div className="bg-white p-3 rounded-xl lg:w-1/3 flex flex-col gap-2">
+          <div>
+            <span className="font-bold">Your instructor: </span>
+            <span>{data?.instructor?.username}</span>
+          </div>
+          <div>
+            <span className="font-bold">Email: </span>
+            <span>{data?.instructor?.email}</span>
           </div>
         </div>
 

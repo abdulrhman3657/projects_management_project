@@ -49,7 +49,7 @@ function GroupDetails() {
           email: student.email,
           password: student.password,
           type: student.userType,
-          idea: { title: student.idea.title, text: student.idea.text },
+          idea: student.idea,
           students: [...students, studentData],
           ideaStatus: {
             status: student.ideaStatus.status,
@@ -80,15 +80,15 @@ function GroupDetails() {
   };
 
   return (
-    <div className="p-5 bg-blue-100">
+    <div className="p-5 h-screen flex justify-center  bg-blue-100">
       <div>
         <ToastContainer position="top-center" reverseOrder={false} />
       </div>
-      <div className="flex flex-col lg:flex-row-reverse lg:justify-around gap-10 lg:gap-3 items-center p-3">
+      <div className="flex w-full flex-col lg:flex-row-reverse lg:justify-around gap-10 lg:gap-3 items-center p-3">
         {students.length == 0 ? (
           <h1 className="text-xl">no students yet</h1>
         ) : (
-          <div>
+          <div className="bg-white p-3 rounded-xl">
             <h1 className="text-x font-bold">{data.username}' Students:</h1>
             {students.map((student) => (
               <div key={student.id}>{student.username}</div>

@@ -34,7 +34,7 @@ function IdeaDetails() {
         password: data.password,
         type: data.userType,
         idea: { title: title, text: text },
-        students: [],
+        students: data.students,
         ideaStatus: { status: status, text: rejText },
       })
       .then((res) => {
@@ -45,11 +45,11 @@ function IdeaDetails() {
   };
 
   return (
-    <div>
+    <div className="">
       <div>
         <ToastContainer position="top-center" reverseOrder={false} />
       </div>
-      <div className="bg-blue-100 lg:flex justify-center">
+      <div className="bg-blue-100 h-screen lg:flex justify-center items-center">
         <div className="p-5 flex lg:w-1/2 flex-col gap-3 ">
           <h1>
             <span className="font-bold">Idea: </span>

@@ -18,7 +18,7 @@ function Instructor() {
 
   return (
     <div>
-      <div className="relative overflow-x-auto p-5 bg-blue-100">
+      <div className="relative overflow-x-auto p-5 bg-blue-100 h-screen lg:flex flex-col justify-center">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold py-3">Your students</h1>
         </div>
