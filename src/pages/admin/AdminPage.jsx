@@ -11,76 +11,80 @@ function AdminPage() {
   const [users, setUsers] = useState([]);
   const [usersCopy, setUsersCopy] = useState([]);
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
   const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
+    // get all users
     axios.get(API).then((res) => {
-      const newlist1 = res.data.filter((user) => {
+      const filterStudents = res.data.filter((user) => {
         return user.type == "Student";
       });
 
-      setUsers(newlist1);
+      // set students
+      setUsers(filterStudents);
 
+      // get a copy of users for search
       setUsersCopy(res.data);
 
-      const newlist = res.data.filter((user) => {
+      const filterInstructors = res.data.filter((user) => {
         return user.type == "Instructor";
       });
 
-      setInstructors(newlist);
+      // set instructors
+      setInstructors(filterInstructors);
 
       console.log(res.data);
     });
   }, []);
 
   const deleteUser = (id) => {
-    // console.log(id);
-
     axios.delete(`${API}/${id}`).then((res) => {
-      // console.log(res.data);
-
       const newUsers = users.filter((user) => {
         return user.id != id;
       });
 
+      // update the users list after delete
       setUsers(newUsers);
     });
   };
 
   const searchUser = () => {
+    // get all users from copy
     if (search == "") {
-      console.log(usersCopy);
       setUsers(usersCopy);
       return;
     }
 
+    // search user by username
     let filteredUsers = users.filter((user) => {
       return user.username.toLowerCase().includes(search.toLowerCase());
     });
 
+    // get the users copy before a new search
     if (filteredUsers.length == 0) {
       filteredUsers = usersCopy.filter((user) => {
         return user.username.toLowerCase().includes(search.toLowerCase());
       });
 
+      // get the results
       setUsers(filteredUsers);
 
       return;
     }
 
+    // get the results
     setUsers(filteredUsers);
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const addStudent = () => {
-    navigate("/signup")
-  }
+    navigate("/signup");
+  };
 
   const addInstructor = () => {
-    navigate("/signup")
-  }
+    navigate("/signup");
+  };
 
   return localStorage.getItem("username") == "admin" ? (
     <div className="p-3 bg-gray-300 flex flex-col gap-3">
@@ -118,7 +122,7 @@ function AdminPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <button
-            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+            className="text-white absolute end-2.5 bottom-2.5 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
             onClick={searchUser}
           >
             Search
@@ -129,24 +133,24 @@ function AdminPage() {
       <div className="relative overflow-x-auto">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold py-3">Students</h1>
-          <button onClick={addStudent} className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 w-25 rounded-lg transition-colors">
-            Add student
+          <button
+            onClick={addStudent}
+            className="bg-green-600 hover:bg-green-700 text-white font-medium  h-9 w-25 rounded-lg transition-colors"
+          >
+            <span className="text-sm">Add student</span>
           </button>
         </div>
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-600">
+          <thead className="text-xs text-gray-100 uppercase bg-gray-800">
             <tr>
               <th scope="col" className="px-6 py-3">
-                User
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Role
+                name
               </th>
               <th scope="col" className="px-6 py-3">
                 Idea
               </th>
               <th scope="col" className="px-6 py-3">
-                More
+                Delete user
               </th>
             </tr>
           </thead>
@@ -159,7 +163,6 @@ function AdminPage() {
                 >
                   {user.username}
                 </th>
-                <td className="px-6 py-4">{user.type}</td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
                     <Link
@@ -187,24 +190,24 @@ function AdminPage() {
       <div className="relative overflow-x-auto">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold py-3">Instructors</h1>
-          <button onClick={addInstructor} className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 w-28 rounded-lg transition-colors">
-            Add Instructor
+          <button
+            onClick={addInstructor}
+            className="bg-green-600 hover:bg-green-700 text-white font-medium h-9 w-28 rounded-lg transition-colors"
+          >
+            <span className="text-sm">Add Instructor</span>
           </button>
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <thead className="text-xs text-gray-100 uppercase bg-gray-800">
             <tr>
               <th scope="col" className="px-6 py-3">
-                User
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Role
+                name
               </th>
               <th scope="col" className="px-6 py-3">
                 Students
               </th>
               <th scope="col" className="px-6 py-3">
-                More
+                Delete user
               </th>
             </tr>
           </thead>
@@ -217,7 +220,6 @@ function AdminPage() {
                 >
                   {user.username}
                 </th>
-                <td className="px-6 py-4">{user.type}</td>
                 <td className="px-6 py-4">
                   <Link
                     to={`/adminpage/groupdetails/${user.id}`}

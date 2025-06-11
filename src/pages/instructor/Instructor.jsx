@@ -21,15 +21,6 @@ function Instructor() {
 
   return (
     <div>
-      {/* <div className="p-5">
-        <div>
-          <h1 className="text-x font-bold">Students:</h1>
-          {students.map((student) => (
-            <div key={student.id}>{student.username}</div>
-          ))}
-        </div>
-      </div> */}
-
       <div className="relative overflow-x-auto p-5 bg-blue-100">
         <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold py-3">Your students</h1>

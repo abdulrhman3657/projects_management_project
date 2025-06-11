@@ -1,6 +1,7 @@
-import React from "react";
+
 
 function Footer() {
+  // absolute bottom-0 right-0 left-0 border
   return (
     <div>
       <footer className="bg-white  shadow-sm">
@@ -42,7 +43,7 @@ function Footer() {
           <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
           <span className="block text-sm text-gray-500 sm:text-center">
             © 2025{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
+            <a href="#" className="hover:underline">
               MyWebsite™
             </a>
             . All Rights Reserved.

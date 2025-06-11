@@ -46,8 +46,8 @@ function AdminLogin() {
       <div>
         <ToastContainer position="top-center" reverseOrder={false} />
       </div>
-      <div className="min-h-screen bg-gray-400 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-gray-200 rounded-xl shadow-lg p-8">
+      <div className="min-h-screen bg-gray-200 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Admin Log In
           </h2>
@@ -58,7 +58,7 @@ function AdminLogin() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 outline-none transition-all"
                 placeholder=""
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -70,7 +70,7 @@ function AdminLogin() {
               </label>
               <input
                 type="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 outline-none transition-all"
                 placeholder=""
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -78,7 +78,7 @@ function AdminLogin() {
             </div>
 
             <button
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors"
+              className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2.5 rounded-lg transition-colors"
               onClick={post_user}
             >
               Log In

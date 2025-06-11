@@ -80,23 +80,23 @@ function GroupDetails() {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-5 bg-blue-100">
       <div>
         <ToastContainer position="top-center" reverseOrder={false} />
       </div>
-      <div className="flex flex-col gap-3 items-center p-3">
+      <div className="flex flex-col lg:flex-row-reverse lg:justify-around gap-10 lg:gap-3 items-center p-3">
         {students.length == 0 ? (
           <h1 className="text-xl">no students yet</h1>
         ) : (
           <div>
-            <h1 className="text-x font-bold">Students:</h1>
+            <h1 className="text-x font-bold">{data.username}' Students:</h1>
             {students.map((student) => (
               <div key={student.id}>{student.username}</div>
             ))}
           </div>
         )}
-        <div className="w-full flex justify-center">
-          <div className="flex flex-col gap-3 lg:w-1/4 p-3 border-2 rounded-2xl bg-gray-200">
+        <div className="w-full lg:w-1/4 flex justify-center">
+          <div className="flex flex-col w-full gap-3 p-3 border-2 rounded-2xl bg-gray-200">
             <select
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               value={selectedStudent}
@@ -111,7 +111,7 @@ function GroupDetails() {
             </select>
             <button
               onClick={addStudent}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors"
+              className="bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-colors"
             >
               Add student
             </button>
