@@ -1,19 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { FaDeleteLeft } from "react-icons/fa6";
 
 function Instructor() {
   const API = "https://682199fa259dad2655afc100.mockapi.io/usersapi";
 
-  const [data, setData] = useState({});
   const [students, setStudents] = useState([]);
 
   const id = localStorage.getItem("id");
 
   useEffect(() => {
     axios.get(`${API}/${id}`).then((res) => {
-      setData(res.data);
       setStudents(res.data.students);
       console.log(res.data);
     });
@@ -23,10 +20,10 @@ function Instructor() {
     <div>
       <div className="relative overflow-x-auto p-5 bg-blue-100">
         <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold py-3">Your students</h1>
+          <h1 className="text-xl font-bold py-3">Your students</h1>
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <thead className="text-xs text-gray-100 uppercase bg-gray-800">
             <tr>
               <th scope="col" className="px-6 py-3">
                 Student
@@ -60,7 +57,6 @@ function Instructor() {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
