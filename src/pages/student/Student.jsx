@@ -10,18 +10,17 @@ function Student() {
   const [counter, setCounter] = useState(0);
   const [status, setStatus] = useState("");
   const [approvedIdeas, setApprovedIdeas] = useState([]);
-  const [studentsGroup, setStudentsGroup] = useState([])
+  const [studentsGroup, setStudentsGroup] = useState([]);
 
   const id = localStorage.getItem("id");
 
   useEffect(() => {
     axios.get(`${API}/${id}`).then((res) => {
+      const filterdList = res.data.students.filter((student) => {
+        return student.username != localStorage.getItem("username");
+      });
 
-      const filterdList = res.data.students.filter(student =>  {
-        return student.username != localStorage.getItem("username")
-      })
-
-      setStudentsGroup(filterdList)
+      setStudentsGroup(filterdList);
 
       setData(res.data);
       setStatus(res.data.ideaStatus.status);
@@ -60,19 +59,18 @@ function Student() {
   return (
     <div className="bg-blue-100 p-3">
       <div className="flex flex-col lg:items-center gap-3 justify-center">
-        <div className="bg-white rounded-xl w-full lg:w-5/10 flex flex-col items-center gap-3 justify-center p-3">
-          <h1 className=" text-2xl font-bold">Approved Ideas</h1>
-          <ol className="list-decimal">
-            {approvedIdeas.map((user) => (
-              <li key={user.id}>{user.idea.title}</li>
-            ))}
-          </ol>
-        </div>
-
         <div className="flex flex-col lg:flex-row-reverse w-full justify-center lg:justify-around items-center gap-3">
+          <div className="bg-white rounded-xl w-full lg:w-3/10 flex flex-col items-center gap-3 justify-center p-3">
+            <h1 className=" text-2xl font-bold text-green-500">Approved Ideas</h1>
+            <ol className="list-decimal">
+              {approvedIdeas.map((user) => (
+                <li key={user.id}>{user.idea.title}</li>
+              ))}
+            </ol>
+          </div>
           <div>
             {data?.idea?.title ? (
-              <div className="lg:flex flex-col gap-4">
+              <div className="lg:flex flex-col gap-4 bg-white p-3 rounded-xl">
                 <h1>
                   <span className="font-bold">Idea: </span>
                   {data?.idea?.title}
@@ -82,8 +80,8 @@ function Student() {
                   {data?.idea?.text}
                 </h1>
                 <h1>
-                  <span className="font-bold">Status: </span>
-                  {status}
+                  <span className="font-bold">Status: </span> 
+                  <span className={(status == "approved") ? "text-green-500": (status == "rejected") ? "text-red-500" : "text-gray-500"}>{status}</span>
                 </h1>
                 <h1>
                   <span className="font-bold">Your instructor: </span>
@@ -148,7 +146,10 @@ function Student() {
           <span className="font-bold text-xl">Your team members: </span>
           <div className="flex flex-col flex-wrap lg:flex-row gap-3">
             {studentsGroup.map((student, index) => (
-              <div key={index} className="flex flex-col gap-3 bg-white p-3 rounded-xl">
+              <div
+                key={index}
+                className="flex flex-col gap-3 bg-white p-3 rounded-xl"
+              >
                 <h1 className="">{student?.username}</h1>
                 <h1 className="">{student?.email}</h1>
               </div>
